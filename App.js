@@ -2,13 +2,9 @@ import React, { Component } from 'react';
 import HomeScreen from "./components/HomeScreen"
 import Episodes from "./components/Episodes";
 import PlayMenu from "./components/PlayMenu";
-import Constants from 'expo-constants';
 import PodcastList from "./components/PodcastList";
 import { StyleSheet, Text, View, Image, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
 import { createStackNavigator, createAppContainer } from "react-navigation";
-import { Ionicons } from '@expo/vector-icons';
-import Slider from "react-native-slider";
-import { Audio } from 'expo-av';
 
 
 const RootStack = createStackNavigator(
