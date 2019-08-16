@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
+import axios from "axios";
 import Constants from 'expo-constants';
 import { StyleSheet, Text, View, Image, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Audio } from 'expo-av';
-import { API_KEY } from 'react-native-dotenv'
-import { APIClient } from 'react-native-api-client-wrapper';
 
-APIClient.init(API_KEY)
-
-
-
-export default class HomeScreen extends Component {
+class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -46,7 +42,6 @@ export default class HomeScreen extends Component {
 
 
   componentDidMount() {
-    console.log("This is my new env", API_KEY)
     Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
       staysActiveInBackground: false,
@@ -60,16 +55,8 @@ export default class HomeScreen extends Component {
 
   retrievePodcastData = async () => {
     try {
-      const { term } = this.state
-      const data = await fetch(`https://listen-api.listennotes.com/api/v2/search?q=${term}&type=podcast`, { headers: { 'X-ListenAPI-Key': Constants.manifest.extra.apiKey } })
-      const items = await data.json();
-      this.setState({ podcastData: items });
-      const { navigation } = this.props;
-      const getEpisodeURI = navigation.getParam("getEpisodeURI");
-      console.log(getEpisodeURI)
-      this.props.navigation.navigate('Results', {
-        podcastData: this.state.podcastData
-      })
+      this.props.fetchPodcastData(this.props.query);
+      this.props.navigation.navigate('Results')
     } catch (error) {
       console.log(error)
     }
@@ -161,8 +148,8 @@ export default class HomeScreen extends Component {
         <View style={styles.searchBar}>
           <TextInput
             style={{ height: 40, borderColor: 'gray', borderWidth: 1, color: "white" }}
-            onChangeText={(term) => this.setState({ term })}
-            value={this.state.term}
+            onChangeText={this.props.onChange}
+            value={this.props.query}
           />
           <Button title="Search" color="#00cc66" onPress={this.retrievePodcastData}></Button>
         </View>
@@ -193,5 +180,29 @@ const styles = StyleSheet.create({
 });
 
 
-
-
+const mapStateToProps = state => {
+  return {
+    query: state.query
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchPodcastData: async (query) => {
+      const podcasts = await axios(`https://listen-api.listennotes.com/api/v2/search?q=${query}&type=podcast`, { headers: { 'X-ListenAPI-Key': Constants.manifest.extra.apiKey } })
+      dispatch({
+        type: "FETCH_PODCASTDATA",
+        data: podcasts.data
+      });
+    },
+    onChange: (text) => {
+      dispatch({
+        type: "UPDATE_QUERY",
+        data: text
+      })
+    }
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomeScreen);

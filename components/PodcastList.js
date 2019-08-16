@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
+import axios from "axios";
 import Constants from 'expo-constants';
 import { StyleSheet, Text, View, Image, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
 
-export default class Podcastlist extends Component {
+class Podcastlist extends Component {
   state = {
     episodes: {}
   }
@@ -21,32 +23,16 @@ export default class Podcastlist extends Component {
 
   retrievePodcastEpisodes = async (id) => {
     try {
-      const data = await fetch(`https://listen-api.listennotes.com/api/v2/podcasts/${id}?sort=recent_first`, { headers: { 'X-ListenAPI-Key': Constants.manifest.extra.apiKey } });
-      const items = await data.json();
-      this.setState({ episodes: items })
-      const { navigation } = this.props;
-      const getEpisodeURI = navigation.getParam("getEpisodeURI");
-      this.props.navigation.navigate("Episodes", {
-        episodes: this.state.episodes,
-        getEpisodeURI: getEpisodeURI
-        /* playTrack: this.playTrack,
-        onPlayPause: this.onPlayPause,
-        onStop: this.onStop,
-        getSeekSliderPosition: this.getSeekSliderPosition,
-        onSeekSliderValueChange: this.onSeekSliderValueChange,
-        onSeekSliderSlidingComplete: this.onSeekSliderSlidingComplete */
-      })
+      this.props.fetchEpisodes(id);
+      this.props.navigation.navigate('Episodes')
     } catch (error) {
       console.log(error)
     }
   }
   render() {
     let results;
-    let podcastData;
-    const { navigation } = this.props;
-    if (navigation !== undefined) {
-      podcastData = navigation.getParam("podcastData");
-      results = podcastData.results.map(podcast => {
+    if (this.props.podcastData.length !== 0) {
+      results = this.props.podcastData.map(podcast => {
         return (
           <TouchableOpacity key={podcast.itunes_id} onPress={() => this.retrievePodcastEpisodes(podcast.id)}>
             <Image source={{ uri: podcast.image }} style={{ width: 100, height: 100 }}></Image>
@@ -54,11 +40,6 @@ export default class Podcastlist extends Component {
         )
       })
     }
-
-
-
-
-
     return (
       <View style={styles.podcastImageContainer}>
         {results}
@@ -74,3 +55,24 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   }
 });
+
+const mapStateToProps = state => {
+  return {
+    podcastData: state.podcastData
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchEpisodes: async (id) => {
+      const episodes = await axios(`https://listen-api.listennotes.com/api/v2/podcasts/${id}?sort=recent_first`, { headers: { 'X-ListenAPI-Key': Constants.manifest.extra.apiKey } });
+      dispatch({
+        type: "FETCH_EPISODES",
+        data: episodes.data
+      });
+    },
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Podcastlist);
