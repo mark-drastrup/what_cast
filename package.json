@@ -9,6 +9,7 @@
     "react-devtools": "react-devtools"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "console": "^0.7.2",
     "expo": "^34.0.1",
     "expo-av": "~6.0.0",
@@ -22,7 +23,9 @@
     "react-native-slider": "^0.11.0",
     "react-native-sound": "^0.11.0",
     "react-native-web": "^0.11.4",
-    "react-navigation": "^3.11.1"
+    "react-navigation": "^3.11.1",
+    "react-redux": "^7.1.0",
+    "redux": "^4.0.4"
   },
   "devDependencies": {
     "babel-preset-expo": "^6.0.0"

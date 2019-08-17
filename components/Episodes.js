@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
 import { StyleSheet, Text, View, Image, Flatlist, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Slider from "react-native-slider";
 
-export default class Episodes extends Component {
+class Episodes extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: "Insert podcast name",
@@ -27,14 +28,9 @@ export default class Episodes extends Component {
   }
 
   render() {
-    let episodesList
     let episodes;
-    let getEpisodeURI;
-    const { navigation } = this.props;
-    if (navigation !== undefined) {
-      getEpisodeURI = navigation.getParam("getEpisodeURI");
-      episodesList = navigation.getParam("episodes");
-      episodes = episodesList.episodes.map((episode) => {
+    if (this.props.episodes.length !== 0) {
+      episodes = this.props.episodes.map((episode) => {
         const date = new Date(episode.pub_date_ms);
         const day = date.getDate();
         const month = date.toLocaleString('default', { month: 'long' });
@@ -46,7 +42,7 @@ export default class Episodes extends Component {
               <Text>{episode.title}</Text>
               <Text>{playTime}</Text>
             </View>
-            <Button title="press me" onPress={() => getEpisodeURI(episode.audio)}></Button>
+            <Button title="press me" onPress={() => this.props.playEpisode(episode.audio)}></Button>
             <Ionicons name="md-play" size={32} color="black" style={styles.playBtn}></Ionicons>
           </TouchableOpacity>
         )
@@ -67,8 +63,8 @@ export default class Episodes extends Component {
       <View>
         <ScrollView>
           <View style={styles.descriptionContainer}>
-            <Image source={{ uri: episodesList.image }} style={styles.image} />
-            <Text style={styles.description}>{episodesList.description}</Text>
+            <Image source={{ uri: this.props.image }} style={styles.image} />
+            <Text style={styles.description}>{this.props.description}</Text>
           </View>
           <View>
             {episodes}
@@ -112,12 +108,24 @@ const styles = StyleSheet.create({
   }
 });
 
-{/* <Button title="Play Pause" onPress={onPlayPause}></Button>
-<Button title="Stop" onPress={onStop}></Button>
-
-<Slider
-  style={styles.playbackSlider}
-  value={_getSeekSliderPosition()}
-  onValueChange={_onSeekSliderValueChange}
-  onSlidingComplete={_onSeekSliderSlidingComplete}
-  disabled={false} /> */}
+const mapStateToProps = state => {
+  return {
+    episodes: state.episodes,
+    image: state.selectedPodcastImage,
+    description: state.selectedPodcastDescription
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    playEpisode: async (uri) => {
+      dispatch({
+        type: "PLAY_EPISODE",
+        data: uri
+      });
+    },
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Episodes);
