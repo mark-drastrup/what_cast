@@ -77,10 +77,19 @@ const sliderSlidingComplete = () => {
   return newAction;
 }
 
+const fetchRandomEpisode = data => {
+  const newAction = {
+    type: "FETCH_RANDOM_EPISODE",
+    data: data
+  }
+  return newAction;
+}
+
 const initialState = {
   podcastData: [],
   query: "",
   episodes: [],
+  randomEpisode: {},
   episodeURI: "",
   selectedPodcastImage: "",
   selectedPodcastDescription: "",
@@ -95,7 +104,8 @@ const initialState = {
   muted: false,
   isSeeking: false,
   shouldPlayAtEndOfSeek: false,
-  showPlayMenu: false
+  showPlayMenu: false,
+  hasRandomEpisode: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -115,6 +125,12 @@ const reducer = (state = initialState, action) => {
       copiedState.episodes = [...action.data.episodes];
       copiedState.selectedPodcastImage = action.data.image;
       copiedState.selectedPodcastDescription = action.data.description;
+      return copiedState;
+    }
+    case "FETCH_RANDOM_EPISODE": {
+      const copiedState = Object.assign({}, state);
+      copiedState.randomEpisode = [action.data];
+      copiedState.hasRandomEpisode = true;
       return copiedState;
     }
     case "PLAY_EPISODE": {

@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Image, Flatlist, TextInput, Button, TouchableOp
 import { Ionicons } from '@expo/vector-icons';
 import Slider from "react-native-slider";
 
-class Episodes extends Component {
+class RandomEpisode extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: "Insert podcast name",
@@ -53,8 +53,8 @@ class Episodes extends Component {
       <View>
         <ScrollView>
           <View style={styles.descriptionContainer}>
-            <Image source={{ uri: this.props.image }} style={styles.image} />
-            <Text style={styles.description}>{this.props.description}</Text>
+            <Image source={{ uri: this.props.episodes[0].image }} style={styles.image} />
+            <Text style={styles.description}>{this.props.episodes[0].description}</Text>
           </View>
           <View>
             {episodes}
@@ -62,6 +62,28 @@ class Episodes extends Component {
         </ScrollView>
       </View>
     );
+
+    /* return (
+      <View>
+        <ScrollView>
+          <View style={styles.descriptionContainer}>
+            <Image source={{ uri: this.props.episode.image }} style={styles.image} />
+            <Text style={styles.description}>{this.props.episode.description}</Text>
+          </View>
+          <View>
+            <TouchableOpacity style={styles.episodesContainer}>
+              <View style={styles.episode}>
+                <Text>{`${day} ${month}`}</Text>
+                <Text>{this.props.episode.title}</Text>
+                <Text>{playTime}</Text>
+              </View>
+              <Button title="press me" onPress={() => this.props.playEpisode(this.props.episode.audio)}></Button>
+              <Ionicons name="md-play" size={32} color="black" style={styles.playBtn}></Ionicons>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </View>
+    ); */
   }
 }
 
@@ -100,9 +122,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    episodes: state.episodes,
-    image: state.selectedPodcastImage,
-    description: state.selectedPodcastDescription
+    episodes: state.randomEpisode
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -118,4 +138,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Episodes);
+)(RandomEpisode);
