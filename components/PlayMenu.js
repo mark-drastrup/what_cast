@@ -96,15 +96,15 @@ class PlayMenu extends Component {
 
   render() {
     return (
-      <View>
-        <View style={{ flexDirection: "row", justifyContent: "center" }}>
-          <Ionicons name="md-rewind" size={32} color="white" style={styles.playBtn}></Ionicons>
+      <View style={{ backgroundColor: "black", justifyContent: "center" }}>
+        <View style={styles.buttonContainer}>
+          <Ionicons name="md-rewind" size={20} color="white"></Ionicons>
           {!this.props.isPlaying ?
-            <Ionicons name="md-play" size={32} color="white" style={styles.playBtn} onPress={this.onPlayPause} />
+            <Ionicons name="md-play" size={32} color="white" onPress={this.onPlayPause} />
             :
-            <Ionicons name="md-pause" size={32} color="white" style={styles.playBtn} onPress={this.onPlayPause} />
+            <Ionicons name="md-pause" size={32} color="white" onPress={this.onPlayPause} />
           }
-          <Ionicons name="md-fastforward" size={32} color="white" style={styles.playBtn}></Ionicons>
+          <Ionicons name="md-fastforward" size={20} color="white"></Ionicons>
         </View>
 
 
@@ -120,35 +120,14 @@ class PlayMenu extends Component {
 }
 
 const styles = StyleSheet.create({
-  descriptionContainer: {
-    marginBottom: 20,
-    alignItems: "stretch",
-  },
-  image: {
+  buttonContainer: {
     flexDirection: "row",
-    height: 400
-  },
-  description: {
-    paddingRight: 5,
-    paddingLeft: 5,
-  },
-  episodesContainer: {
-    flexDirection: "row",
-    alignItems: "center",
     justifyContent: "space-around",
-    flex: 1,
-    borderBottomColor: '#bbb',
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    alignItems: "center",
+    paddingTop: 10
   },
-  episode: {
-    paddingTop: 20,
-    paddingBottom: 20,
-    paddingRight: 15,
-    paddingLeft: 5,
-    flex: 10,
-  },
-  playBtn: {
-    flex: 1
+  playbackSlider: {
+    alignSelf: "stretch",
   }
 });
 

@@ -15,8 +15,10 @@ class Podcastlist extends Component {
       headerStyle: {
         backgroundColor: "black"
       },
+      headerTintColor: '#fff',
       headerTitleStyle: {
-        color: "#fff"
+        color: "#fff",
+        flex: 1
       }
     };
   };

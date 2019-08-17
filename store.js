@@ -95,7 +95,7 @@ const initialState = {
   muted: false,
   isSeeking: false,
   shouldPlayAtEndOfSeek: false,
-  showPlayMenu: true
+  showPlayMenu: false
 };
 
 const reducer = (state = initialState, action) => {
