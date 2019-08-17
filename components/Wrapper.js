@@ -4,15 +4,17 @@ import HomeScreen from "./HomeScreen"
 import Episodes from "./Episodes";
 import PlayMenu from "./PlayMenu";
 import PodcastList from "./PodcastList";
+import Random from "./Random";
+import Menu from "./Menu";
 import { View } from 'react-native';
-import { createStackNavigator, createAppContainer } from "react-navigation";
-
+import { createStackNavigator, createAppContainer, NavigationActions } from "react-navigation";
 
 const RootStack = createStackNavigator(
   {
     Home: HomeScreen,
     Results: PodcastList,
-    Episodes: Episodes
+    Episodes: Episodes,
+    Random: Random
   },
   {
     initialRouteName: 'Home',
@@ -22,13 +24,18 @@ const RootStack = createStackNavigator(
 const AppContainer = createAppContainer(RootStack);
 
 class Wrapper extends React.Component {
+  dispatchRoute = (route) => {
+    this._navigator.dispatch({ type: NavigationActions.NAVIGATE, routeName: route })
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <AppContainer style={{ flex: 1 }} getEpisodeURI={this.getEpisodeURI} />
+        <AppContainer style={{ flex: 1 }} getEpisodeURI={this.getEpisodeURI} ref={nav => this._navigator = nav} />
         {this.props.showPlayMenu === true &&
           <PlayMenu></PlayMenu>
         }
+        <Menu dispatchRoute={this.dispatchRoute}></Menu>
       </View>
     )
   }
