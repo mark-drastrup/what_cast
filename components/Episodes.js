@@ -8,6 +8,7 @@ class Episodes extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: "Insert podcast name",
+      headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: "black"
       },
