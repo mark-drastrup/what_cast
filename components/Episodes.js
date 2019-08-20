@@ -121,6 +121,8 @@ const mapDispatchToProps = dispatch => {
         type: "PLAY_EPISODE",
         data: uri
       });
+      //provide the episode id as well and use that to check if the icon should be play or pause
+      // Also check if episode is playing or paused
     },
   };
 };
