@@ -7,6 +7,21 @@ import RandomEpisode from "./RandomEpisode";
 import axios from "axios";
 
 class Random extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: "Random",
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: "black"
+      },
+      headerTitleStyle: {
+        color: "#fff",
+        textAlign: "center",
+        flex: 1
+      }
+    };
+  };
+
   componentDidMount() {
     if (!this.props.hasRandomEpisode) {
       this.props.fetchEpisode();
@@ -16,10 +31,9 @@ class Random extends Component {
   render() {
     if (this.props.hasRandomEpisode) {
       return (
-        <ScrollView>
+        <View style={{ flex: 1 }}>
           <RandomEpisode></RandomEpisode>
-          <Button title="Randomize" onPress={this.props.fetchEpisode}></Button>
-        </ScrollView>
+        </View>
       );
     } else {
       return (
@@ -37,7 +51,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    padding: 10
+    padding: 10,
+    backgroundColor: "#1a1a1a"
   },
   horizontal: {
     flexDirection: 'row',

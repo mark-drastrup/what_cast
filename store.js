@@ -85,6 +85,14 @@ const fetchRandomEpisode = data => {
   return newAction;
 }
 
+const changeActiveView = data => {
+  const newAction = {
+    type: "CHANGE_ACTIVE_VIEW",
+    data: data
+  }
+  return newAction;
+}
+
 const initialState = {
   podcastData: [],
   query: "",
@@ -97,6 +105,7 @@ const initialState = {
     name: "",
     podcast: []
   },
+  activeView: "Home",
   randomEpisode: {},
   episodeURI: "",
   selectedPodcastImage: "",
@@ -421,6 +430,11 @@ const reducer = (state = initialState, action) => {
     case "SLIDER_VALUE_COMPLETE": {
       const copiedState = Object.assign({}, state);
       copiedState.isSeeking = false;
+      return copiedState;
+    }
+    case "CHANGE_ACTIVE_VIEW": {
+      const copiedState = Object.assign({}, state);
+      copiedState.activeView = action.data;
       return copiedState;
     }
     default: {
