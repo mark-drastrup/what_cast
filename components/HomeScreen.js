@@ -4,7 +4,7 @@ import axios from "axios";
 import Constants from 'expo-constants';
 import PodcastList from "./PodcastList";
 import Featured from "./Featured";
-import { StyleSheet, Text, View, Image, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, Button, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Audio } from 'expo-av';
 
@@ -12,6 +12,7 @@ class HomeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: "Discover",
+      headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: "black"
       },
@@ -19,7 +20,8 @@ class HomeScreen extends Component {
         color: "#fff",
         textAlign: "center",
         flex: 1
-      }
+      },
+      headerRight: (<View />)
     };
   };
 
@@ -66,15 +68,19 @@ class HomeScreen extends Component {
             underlineColorAndroid="black"
           />
         </View>
-        <ScrollView>
+        {/* <ScrollView>
           <PodcastList fetchEpisodes={this.retrievePodcastEpisodes}></PodcastList>
           <Featured fetchEpisodes={this.retrievePodcastEpisodes}></Featured>
+        </ScrollView> */}
+        <ScrollView>
+          {this.props.podcastData.length !== 0 &&
+            <View>
+              <PodcastList fetchEpisodes={this.retrievePodcastEpisodes}></PodcastList>
+            </View>
+          }
+
+          <Featured fetchEpisodes={this.retrievePodcastEpisodes}></Featured>
         </ScrollView>
-        {this.props.podcastData.length !== 0 &&
-          <View>
-            <PodcastList fetchEpisodes={this.retrievePodcastEpisodes}></PodcastList>
-          </View>
-        }
       </View>
     );
   }

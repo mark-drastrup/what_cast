@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     alignSelf: "flex-start",
-    width: "50%",
+    width: 100,
     marginBottom: 10
   }
 });

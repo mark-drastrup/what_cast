@@ -35,17 +35,23 @@ class Podcastlist extends Component {
   }
   render() {
     let results;
-    /* if (this.props.podcastData.length !== 0) {
+    if (this.props.podcastData.length !== 0) {
       results = this.props.podcastData.map(podcast => {
         return (
-          <TouchableOpacity key={podcast.itunes_id} onPress={() => this.props.fetchEpisodes(podcast.id)}>
-            <Image source={{ uri: podcast.image }} style={{ width: 100, height: 100 }}></Image>
+          <TouchableOpacity key={podcast.itunes_id} onPress={() => this.props.fetchEpisodes(podcast.id)} style={styles.podcast}>
+            <Image source={{ uri: podcast.image }} style={styles.image}></Image>
+            <View style={{ width: 150, flexDirection: "row" }}>
+              <Text style={[styles.description, styles.descriptionTitle]} numberOfLines={1} ellipsizeMode="clip">{podcast.title_original}</Text>
+            </View>
+            <View style={{ width: 150, flexDirection: "row" }}>
+              <Text style={[styles.description, styles.descriptionPublisher]} numberOfLines={1} ellipsizeMode="clip">{podcast.publisher_original}</Text>
+            </View>
           </TouchableOpacity>
         )
       })
-    } */
+    }
 
-    results = this.props.mock.map(podcast => {
+    /* results = this.props.mock.map(podcast => {
       return (
         <TouchableOpacity key={podcast.itunes_id} onPress={() => this.props.fetchEpisodes(podcast.id)} style={styles.podcast}>
           <Image source={{ uri: podcast.image }} style={styles.image}></Image>
@@ -57,7 +63,7 @@ class Podcastlist extends Component {
           </View>
         </TouchableOpacity>
       )
-    })
+    }) */
 
     return (
       <>
