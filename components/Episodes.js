@@ -7,7 +7,7 @@ import Slider from "react-native-slider";
 class Episodes extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: "Insert podcast name",
+      title: navigation.getParam('test', 'Episodes'),
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: "black"
@@ -31,8 +31,18 @@ class Episodes extends Component {
     return hDisplay + mDisplay;
   }
 
+  onPlayPause = () => {
+    if (this.props.isPlaying) {
+      this.props.playbackInstance.pauseAsync();
+    } else {
+      this.props.playbackInstance.playAsync();
+    }
+    this.props.playPause();
+  }
+
   render() {
     let episodes;
+    console.log(this.props.podcastName)
     if (this.props.episodes.length !== 0) {
       episodes = this.props.episodes.map((episode) => {
         const date = new Date(episode.pub_date_ms);
@@ -47,7 +57,11 @@ class Episodes extends Component {
               <Text style={styles.episodeInfo}>{episode.title}</Text>
               <Text style={styles.episodeInfo}>{playTime}</Text>
             </View>
-            <Ionicons name="md-play" size={32} color="white" style={styles.playBtn} onPress={() => this.props.playEpisode(episode.audio)}></Ionicons>
+            {this.props.currentlyPlaying === episode.id && this.props.isPlaying ?
+              <Ionicons name="md-pause" size={32} color="white" style={styles.playBtn} onPress={this.onPlayPause}></Ionicons>
+              :
+              <Ionicons name="md-play" size={32} color="white" style={styles.playBtn} onPress={() => this.props.playEpisode(episode.audio, episode.id)}></Ionicons>
+            }
           </TouchableOpacity>
         )
       })
@@ -112,17 +126,27 @@ const mapStateToProps = state => {
     episodes: state.episodes,
     image: state.selectedPodcastImage,
     description: state.selectedPodcastDescription,
+    currentlyPlaying: state.currentlyPlaying,
+    isPlaying: state.isPlaying,
+    playbackInstance: state.playbackInstance,
+    podcastName: state.podcastName
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    playEpisode: async (uri) => {
+    playEpisode: async (uri, id) => {
       dispatch({
         type: "PLAY_EPISODE",
-        data: uri
+        data: {
+          uri,
+          id
+        }
       });
-      //provide the episode id as well and use that to check if the icon should be play or pause
-      // Also check if episode is playing or paused
+    },
+    playPause: () => {
+      dispatch({
+        type: "PLAY_PAUSE"
+      })
     },
   };
 };

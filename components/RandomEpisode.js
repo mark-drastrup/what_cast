@@ -16,6 +16,15 @@ class RandomEpisode extends Component {
     return hDisplay + mDisplay;
   }
 
+  onPlayPause = () => {
+    if (this.props.isPlaying) {
+      this.props.playbackInstance.pauseAsync();
+    } else {
+      this.props.playbackInstance.playAsync();
+    }
+    this.props.playPause();
+  }
+
   render() {
     let episodes;
     if (this.props.episodes.length !== 0) {
@@ -32,7 +41,11 @@ class RandomEpisode extends Component {
               <Text style={styles.episodeInfo}>{episode.title}</Text>
               <Text style={styles.episodeInfo}>{playTime}</Text>
             </View>
-            <Ionicons name="md-play" size={32} color="white" style={styles.playBtn} onPress={() => this.props.playEpisode(episode.audio)}></Ionicons>
+            {this.props.currentlyPlaying === episode.id && this.props.isPlaying ?
+              <Ionicons name="md-pause" size={32} color="white" style={styles.playBtn} onPress={this.onPlayPause}></Ionicons>
+              :
+              <Ionicons name="md-play" size={32} color="white" style={styles.playBtn} onPress={() => this.props.playEpisode(episode.audio, episode.id)}></Ionicons>
+            }
           </TouchableOpacity>
         )
       })
@@ -98,16 +111,27 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    episodes: state.randomEpisode
+    episodes: state.randomEpisode,
+    currentlyPlaying: state.currentlyPlaying,
+    isPlaying: state.isPlaying,
+    playbackInstance: state.playbackInstance
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    playEpisode: async (uri) => {
+    playEpisode: async (uri, id) => {
       dispatch({
         type: "PLAY_EPISODE",
-        data: uri
+        data: {
+          uri,
+          id
+        }
       });
+    },
+    playPause: () => {
+      dispatch({
+        type: "PLAY_PAUSE"
+      })
     },
     fetchEpisode: async () => {
       const episodes = await axios(`https://listen-api.listennotes.com/api/v2/just_listen`, { headers: { 'X-ListenAPI-Key': Constants.manifest.extra.apiKey } });
