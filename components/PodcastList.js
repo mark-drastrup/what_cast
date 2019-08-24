@@ -28,7 +28,6 @@ class Podcastlist extends Component {
   retrievePodcastEpisodes = async (id) => {
     try {
       this.props.fetchEpisodes(id);
-      this.props.navigation.navigate('Episodes')
     } catch (error) {
       console.log(error)
     }
@@ -129,7 +128,7 @@ const mapStateToProps = state => {
   return {
     podcastData: state.podcastData,
     query: state.query,
-    mock: state.mockData
+    mock: state.mockData,
   };
 };
 const mapDispatchToProps = dispatch => {

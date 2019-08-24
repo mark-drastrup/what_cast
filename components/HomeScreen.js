@@ -45,7 +45,9 @@ class HomeScreen extends Component {
   retrievePodcastEpisodes = async (id) => {
     try {
       this.props.fetchEpisodes(id);
-      this.props.navigation.navigate('Episodes')
+      this.props.navigation.navigate('Episodes', {
+        test: "Placholder"
+      })
     } catch (error) {
       console.log(error)
     }

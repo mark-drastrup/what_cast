@@ -17,7 +17,7 @@ const RootStack = createStackNavigator(
     Random: Random
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Random',
   }
 );
 
