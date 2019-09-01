@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import axios from "axios";
 import Constants from 'expo-constants';
-import { StyleSheet, Text, View, Image, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { bold } from 'ansi-colors';
 
 
@@ -49,20 +49,6 @@ class Podcastlist extends Component {
         )
       })
     }
-
-    /* results = this.props.mock.map(podcast => {
-      return (
-        <TouchableOpacity key={podcast.itunes_id} onPress={() => this.props.fetchEpisodes(podcast.id)} style={styles.podcast}>
-          <Image source={{ uri: podcast.image }} style={styles.image}></Image>
-          <View style={{ width: 150, flexDirection: "row" }}>
-            <Text style={[styles.description, styles.descriptionTitle]} numberOfLines={1} ellipsizeMode="clip">{podcast.title_original}</Text>
-          </View>
-          <View style={{ width: 150, flexDirection: "row" }}>
-            <Text style={[styles.description, styles.descriptionPublisher]} numberOfLines={1} ellipsizeMode="clip">{podcast.publisher_original}</Text>
-          </View>
-        </TouchableOpacity>
-      )
-    }) */
 
     return (
       <>
@@ -128,7 +114,6 @@ const mapStateToProps = state => {
   return {
     podcastData: state.podcastData,
     query: state.query,
-    mock: state.mockData,
   };
 };
 const mapDispatchToProps = dispatch => {

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { StyleSheet, Text, View, Image, Flatlist, TextInput, Button, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import Slider from "react-native-slider";
+import { convertToPlaytime } from "../helpers"
 
 class Episodes extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.getParam('test', 'Episodes'),
+      title: "Episodes",
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: "black"
@@ -21,16 +21,6 @@ class Episodes extends Component {
     };
   };
 
-  convertToPlaytime = (seconds) => {
-    seconds = Number(seconds);
-    var h = Math.floor(seconds / 3600);
-    var m = Math.floor(seconds % 3600 / 60);
-
-    var hDisplay = h > 0 ? h + (h == 1 ? "h " : "h ") : "";
-    var mDisplay = m > 0 ? m + (m == 1 ? " min " : " min ") : "";
-    return hDisplay + mDisplay;
-  }
-
   onPlayPause = () => {
     if (this.props.isPlaying) {
       this.props.playbackInstance.pauseAsync();
@@ -42,14 +32,13 @@ class Episodes extends Component {
 
   render() {
     let episodes;
-    console.log(this.props.podcastName)
     if (this.props.episodes.length !== 0) {
       episodes = this.props.episodes.map((episode) => {
         const date = new Date(episode.pub_date_ms);
         const day = date.getDate();
         const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Oktober", "November", "December"]
         const month = date.getMonth();
-        const playTime = this.convertToPlaytime(episode.audio_length_sec);
+        const playTime = convertToPlaytime(episode.audio_length_sec);
         return (
           <TouchableOpacity style={styles.episodesContainer} key={episode.id}>
             <View style={styles.episode}>

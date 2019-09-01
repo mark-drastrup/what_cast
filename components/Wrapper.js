@@ -23,7 +23,7 @@ const RootStack = createStackNavigator(
 
 const AppContainer = createAppContainer(RootStack);
 
-class Wrapper extends React.Component {
+class Wrapper extends Component {
   dispatchRoute = (route) => {
     this._navigator.dispatch({ type: NavigationActions.NAVIGATE, routeName: route })
   }
@@ -31,7 +31,7 @@ class Wrapper extends React.Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <AppContainer style={{ flex: 1 }} getEpisodeURI={this.getEpisodeURI} ref={nav => this._navigator = nav} />
+        <AppContainer style={{ flex: 1 }} ref={nav => this._navigator = nav} />
         {this.props.showPlayMenu === true &&
           <PlayMenu></PlayMenu>
         }

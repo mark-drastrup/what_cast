@@ -6,6 +6,8 @@ class Featured extends Component {
   render() {
     let first;
     let second;
+    let third;
+    let fourth;
     if (this.props.firstFeature.length !== 0 && this.props.secondFeature.length !== 0) {
       first = this.props.firstFeature.map(podcast => {
         return (
@@ -26,10 +28,38 @@ class Featured extends Component {
           <TouchableOpacity key={podcast.itunes_id} onPress={() => this.props.fetchEpisodes(podcast.id)} style={styles.podcast}>
             <Image source={{ uri: podcast.image }} style={styles.image}></Image>
             <View style={{ width: 150, flexDirection: "row" }}>
-              <Text style={[styles.description, styles.descriptionTitle]} numberOfLines={1} ellipsizeMode="clip">{podcast.title_original}</Text>
+              <Text style={[styles.description, styles.descriptionTitle]} numberOfLines={1} ellipsizeMode="clip">{podcast.title}</Text>
             </View>
             <View style={{ width: 150, flexDirection: "row" }}>
-              <Text style={[styles.description, styles.descriptionPublisher]} numberOfLines={1} ellipsizeMode="clip">{podcast.publisher_original}</Text>
+              <Text style={[styles.description, styles.descriptionPublisher]} numberOfLines={1} ellipsizeMode="clip">{podcast.publisher}</Text>
+            </View>
+          </TouchableOpacity>
+        )
+      })
+
+      third = this.props.thirdFeature.map(podcast => {
+        return (
+          <TouchableOpacity key={podcast.itunes_id} onPress={() => this.props.fetchEpisodes(podcast.id)} style={styles.podcast}>
+            <Image source={{ uri: podcast.image }} style={styles.image}></Image>
+            <View style={{ width: 150, flexDirection: "row" }}>
+              <Text style={[styles.description, styles.descriptionTitle]} numberOfLines={1} ellipsizeMode="clip">{podcast.title}</Text>
+            </View>
+            <View style={{ width: 150, flexDirection: "row" }}>
+              <Text style={[styles.description, styles.descriptionPublisher]} numberOfLines={1} ellipsizeMode="clip">{podcast.publisher}</Text>
+            </View>
+          </TouchableOpacity>
+        )
+      })
+
+      fourth = this.props.fourthFeature.map(podcast => {
+        return (
+          <TouchableOpacity key={podcast.itunes_id} onPress={() => this.props.fetchEpisodes(podcast.id)} style={styles.podcast}>
+            <Image source={{ uri: podcast.image }} style={styles.image}></Image>
+            <View style={{ width: 150, flexDirection: "row" }}>
+              <Text style={[styles.description, styles.descriptionTitle]} numberOfLines={1} ellipsizeMode="clip">{podcast.title}</Text>
+            </View>
+            <View style={{ width: 150, flexDirection: "row" }}>
+              <Text style={[styles.description, styles.descriptionPublisher]} numberOfLines={1} ellipsizeMode="clip">{podcast.publisher}</Text>
             </View>
           </TouchableOpacity>
         )
@@ -56,6 +86,36 @@ class Featured extends Component {
           <Text style={styles.resultText}>{this.props.secondFeatureTitle}</Text>
           <ScrollView style={styles.podcastImageContainer} horizontal="true">
             {second}
+          </ScrollView>
+        </View>
+        <View
+          style={{
+            borderBottomColor: '#404040',
+            borderBottomWidth: 1,
+            width: "95%",
+            alignSelf: "center",
+            marginTop: 20
+          }}
+        />
+        <View style={styles.podcastList}>
+          <Text style={styles.resultText}>{this.props.thirdFeatureTitle}</Text>
+          <ScrollView style={styles.podcastImageContainer} horizontal="true">
+            {third}
+          </ScrollView>
+        </View>
+        <View
+          style={{
+            borderBottomColor: '#404040',
+            borderBottomWidth: 1,
+            width: "95%",
+            alignSelf: "center",
+            marginTop: 20
+          }}
+        />
+        <View style={styles.podcastList}>
+          <Text style={styles.resultText}>{this.props.fourthFeatureTitle}</Text>
+          <ScrollView style={styles.podcastImageContainer} horizontal="true">
+            {fourth}
           </ScrollView>
         </View>
       </>
@@ -96,7 +156,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     alignSelf: "flex-start",
-    width: 100,
+    width: 150,
     marginBottom: 10
   }
 });
@@ -107,7 +167,11 @@ const mapStateToProps = state => {
     firstFeature: state.firstFeatured.podcasts,
     firstFeatureTitle: state.firstFeatured.name,
     secondFeature: state.secondFeatured.podcasts,
-    secondFeatureTitle: state.secondFeatured.name
+    secondFeatureTitle: state.secondFeatured.name,
+    thirdFeature: state.thirdFeatured.podcasts,
+    thirdFeatureTitle: state.thirdFeatured.name,
+    fourthFeature: state.fourthFeatured.podcasts,
+    fourthFeatureTitle: state.fourthFeatured.name
   };
 };
 const mapDispatchToProps = dispatch => {

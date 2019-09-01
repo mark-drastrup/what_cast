@@ -4,9 +4,7 @@ import axios from "axios";
 import Constants from 'expo-constants';
 import PodcastList from "./PodcastList";
 import Featured from "./Featured";
-import { StyleSheet, Text, View, Image, TextInput, Button, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { Audio } from 'expo-av';
+import { StyleSheet, View, TextInput, ScrollView, ActivityIndicator } from 'react-native';
 
 class HomeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -28,26 +26,16 @@ class HomeScreen extends Component {
   componentDidMount() {
     const featuredID = [140, 143, 138, 104, 77, 99, 133, 127];
     const first = featuredID[3];
-    const second = featuredID[6]
-    this.props.fetchFeatured(first, second)
-  }
-
-
-  retrievePodcastData = async () => {
-    try {
-      this.props.fetchPodcastData(this.props.query);
-      this.props.navigation.navigate('Results')
-    } catch (error) {
-      console.log(error)
-    }
+    const second = featuredID[6];
+    const third = featuredID[2];
+    const fourth = featuredID[1];
+    this.props.fetchFeatured(first, second, third, fourth)
   }
 
   retrievePodcastEpisodes = async (id) => {
     try {
       this.props.fetchEpisodes(id);
-      this.props.navigation.navigate('Episodes', {
-        test: "Placholder"
-      })
+      this.props.navigation.navigate('Episodes')
     } catch (error) {
       console.log(error)
     }
@@ -59,32 +47,35 @@ class HomeScreen extends Component {
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.searchBar}>
-          <TextInput
-            style={styles.searchInput}
-            onChangeText={this.handleOnchange}
-            value={this.props.query}
-            placeholder="Search Podcasts"
-            underlineColorAndroid="black"
-          />
+    if (this.props.hasFeatured) {
+      return (
+        <View style={styles.container}>
+          <View style={styles.searchBar}>
+            <TextInput
+              style={styles.searchInput}
+              onChangeText={this.handleOnchange}
+              value={this.props.query}
+              placeholder="Search Podcasts"
+              underlineColorAndroid="black"
+            />
+          </View>
+          <ScrollView>
+            {this.props.podcastData.length !== 0 &&
+              <View>
+                <PodcastList fetchEpisodes={this.retrievePodcastEpisodes}></PodcastList>
+              </View>
+            }
+            <Featured fetchEpisodes={this.retrievePodcastEpisodes}></Featured>
+          </ScrollView>
         </View>
-        {/* <ScrollView>
-          <PodcastList fetchEpisodes={this.retrievePodcastEpisodes}></PodcastList>
-          <Featured fetchEpisodes={this.retrievePodcastEpisodes}></Featured>
-        </ScrollView> */}
-        <ScrollView>
-          {this.props.podcastData.length !== 0 &&
-            <View>
-              <PodcastList fetchEpisodes={this.retrievePodcastEpisodes}></PodcastList>
-            </View>
-          }
-
-          <Featured fetchEpisodes={this.retrievePodcastEpisodes}></Featured>
-        </ScrollView>
-      </View>
-    );
+      );
+    } else {
+      return (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#36aee3" />
+        </View>
+      )
+    }
   }
 
 }
@@ -95,6 +86,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: '#1a1a1a',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
+    backgroundColor: "#1a1a1a"
   },
   searchBar: {
     width: "95%",
@@ -114,7 +113,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     query: state.query,
-    podcastData: state.podcastData
+    podcastData: state.podcastData,
+    hasFeatured: state.hasFeatured
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -133,12 +133,14 @@ const mapDispatchToProps = dispatch => {
         data: episodes.data
       });
     },
-    fetchFeatured: async (first, second) => {
+    fetchFeatured: async (first, second, third, fourth) => {
       const firstFeature = await axios(`https://listen-api.listennotes.com/api/v2/best_podcasts?genre_id=${first}&page=2`, { headers: { 'X-ListenAPI-Key': Constants.manifest.extra.apiKey } })
       const secondFeature = await axios(`https://listen-api.listennotes.com/api/v2/best_podcasts?genre_id=${second}&page=2`, { headers: { 'X-ListenAPI-Key': Constants.manifest.extra.apiKey } })
+      const thirdFeature = await axios(`https://listen-api.listennotes.com/api/v2/best_podcasts?genre_id=${third}&page=2`, { headers: { 'X-ListenAPI-Key': Constants.manifest.extra.apiKey } })
+      const fourthFeature = await axios(`https://listen-api.listennotes.com/api/v2/best_podcasts?genre_id=${fourth}&page=2`, { headers: { 'X-ListenAPI-Key': Constants.manifest.extra.apiKey } })
       dispatch({
         type: "FETCH_FEATURED",
-        data: { firstFeature, secondFeature }
+        data: { firstFeature, secondFeature, thirdFeature, fourthFeature }
       })
     },
     onChange: (text) => {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Slider from "react-native-slider";
 import { Audio } from 'expo-av';
@@ -9,7 +9,7 @@ class PlayMenu extends Component {
   componentDidMount() {
     Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
-      staysActiveInBackground: false,
+      staysActiveInBackground: true,
       interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
       playsInSilentModeIOS: true,
       shouldDuckAndroid: true,
@@ -37,17 +37,11 @@ class PlayMenu extends Component {
         isMuted: false,
         isLooping: 0
       };
-      const { sound, status } = await Audio.Sound.createAsync({ uri: uri }, initialStatus, this._onPlaybackStatusUpdate)
+      const { sound } = await Audio.Sound.createAsync({ uri }, initialStatus, this.props.updateEpisodeData)
       this.props.setEpisode(sound);
 
     } catch (error) {
       console.log(error)
-    }
-  }
-
-  _onPlaybackStatusUpdate = status => {
-    if (status.isLoaded) {
-      this.props.updateEpisodeData(status)
     }
   }
 
@@ -146,19 +140,21 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     updateEpisodeData: (status) => {
-      dispatch({
-        type: "UPDATE_EPISODE_DATA",
-        data: {
-          playbackInstancePosition: status.positionMillis,
-          playbackInstanceDuration: status.durationMillis,
-          shouldPlay: status.shouldPlay,
-          isPlaying: status.isPlaying,
-          isBuffering: status.isBuffering,
-          rate: status.rate,
-          muted: status.isMuted,
-          volume: status.volume,
-        }
-      })
+      if (status.isLoaded) {
+        dispatch({
+          type: "UPDATE_EPISODE_DATA",
+          data: {
+            playbackInstancePosition: status.positionMillis,
+            playbackInstanceDuration: status.durationMillis,
+            shouldPlay: status.shouldPlay,
+            isPlaying: status.isPlaying,
+            isBuffering: status.isBuffering,
+            rate: status.rate,
+            muted: status.isMuted,
+            volume: status.volume,
+          }
+        })
+      }
     },
     setEpisode: (sound) => {
       dispatch({

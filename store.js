@@ -103,7 +103,15 @@ const initialState = {
   },
   secondFeatured: {
     name: "",
-    podcast: []
+    podcasts: []
+  },
+  thirdFeatured: {
+    name: "",
+    podcasts: []
+  },
+  fourthFeatured: {
+    name: "",
+    podcasts: []
   },
   activeView: "Random",
   randomEpisode: {},
@@ -125,6 +133,7 @@ const initialState = {
   shouldPlayAtEndOfSeek: false,
   showPlayMenu: false,
   hasRandomEpisode: false,
+  hasFeatured: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -155,10 +164,15 @@ const reducer = (state = initialState, action) => {
     }
     case "FETCH_FEATURED": {
       const copiedState = Object.assign({}, state);
-      copiedState.firstFeatured.name = action.data.firstFeature.data.name
-      copiedState.firstFeatured.podcasts = [...action.data.firstFeature.data.podcasts]
-      copiedState.secondFeatured.name = action.data.secondFeature.data.name
-      copiedState.secondFeatured.podcasts = [...action.data.secondFeature.data.podcasts]
+      copiedState.firstFeatured.name = action.data.firstFeature.data.name;
+      copiedState.firstFeatured.podcasts = [...action.data.firstFeature.data.podcasts];
+      copiedState.secondFeatured.name = action.data.secondFeature.data.name;
+      copiedState.secondFeatured.podcasts = [...action.data.secondFeature.data.podcasts];
+      copiedState.thirdFeatured.name = action.data.thirdFeature.data.name;
+      copiedState.thirdFeatured.podcasts = [...action.data.thirdFeature.data.podcasts];
+      copiedState.fourthFeatured.name = action.data.fourthFeature.data.name;
+      copiedState.fourthFeatured.podcasts = [...action.data.fourthFeature.data.podcasts];
+      copiedState.hasFeatured = true;
       return copiedState;
     }
     case "PLAY_EPISODE": {

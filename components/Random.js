@@ -38,7 +38,7 @@ class Random extends Component {
     } else {
       return (
         <View style={styles.container}>
-          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator size="large" color="#36aee3" />
         </View>
       )
     }
