@@ -17,11 +17,9 @@ The app is published for Beta test on Google Play. Please feel free to try it ou
 
 ## Screenshots
 
-![ScreenShot](/assets/screenshots/random.jpg)
-
-![ScreenShot](/assets/screenshots/discover.jpg)
-
-![ScreenShot](/assets/screenshots/episodes.jpg)
+<img src="./assets/screenshots/random.jpg"  width="30%"/>
+<img src="./assets/screenshots/discover.jpg"  width="30%"/>
+<img src="./assets/screenshots/episodes.jpg"  width="30%"/>
 
 ## Installation
 
