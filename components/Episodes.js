@@ -1,14 +1,22 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { convertToPlaytime } from "../helpers"
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  ActivityIndicator
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { convertToPlaytime } from "../helpers";
 
 class Episodes extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: "Episodes",
-      headerTintColor: '#fff',
+      headerTintColor: "#fff",
       headerStyle: {
         backgroundColor: "black"
       },
@@ -17,7 +25,7 @@ class Episodes extends Component {
         textAlign: "center",
         flex: 1
       },
-      headerRight: (<View />)
+      headerRight: <View />
     };
   };
 
@@ -28,46 +36,85 @@ class Episodes extends Component {
       this.props.playbackInstance.playAsync();
     }
     this.props.playPause();
-  }
+  };
 
   render() {
     let episodes;
     if (this.props.episodes.length !== 0) {
-      episodes = this.props.episodes.map((episode) => {
+      episodes = this.props.episodes.map(episode => {
         const date = new Date(episode.pub_date_ms);
         const day = date.getDate();
-        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Oktober", "November", "December"]
+        const months = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "Oktober",
+          "November",
+          "December"
+        ];
         const month = date.getMonth();
         const playTime = convertToPlaytime(episode.audio_length_sec);
         return (
           <TouchableOpacity style={styles.episodesContainer} key={episode.id}>
             <View style={styles.episode}>
-              <Text style={styles.episodeInfo}>{`${day} ${months[month]}`}</Text>
+              <Text
+                style={styles.episodeInfo}
+              >{`${day} ${months[month]}`}</Text>
               <Text style={styles.episodeInfo}>{episode.title}</Text>
               <Text style={styles.episodeInfo}>{playTime}</Text>
             </View>
-            {this.props.currentlyPlaying === episode.id && this.props.isPlaying ?
-              <Ionicons name="md-pause" size={32} color="white" style={styles.playBtn} onPress={this.onPlayPause}></Ionicons>
-              :
-              <Ionicons name="md-play" size={32} color="white" style={styles.playBtn} onPress={() => this.props.playEpisode(episode.audio, episode.id)}></Ionicons>
-            }
+            {this.props.currentlyPlaying === episode.id &&
+            this.props.isPlaying ? (
+              <Ionicons
+                name="md-pause"
+                size={32}
+                color="white"
+                style={styles.playBtn}
+                onPress={this.onPlayPause}
+              ></Ionicons>
+            ) : (
+              <Ionicons
+                name="md-play"
+                size={32}
+                color="white"
+                style={styles.playBtn}
+                onPress={() =>
+                  this.props.playEpisode(episode.audio, episode.id)
+                }
+              ></Ionicons>
+            )}
           </TouchableOpacity>
-        )
-      })
+        );
+      });
     }
 
     return (
-      <View style={{ backgroundColor: "#1a1a1a" }}>
-        <ScrollView>
-          <View style={styles.descriptionContainer}>
-            <Image source={{ uri: this.props.image }} style={styles.image} />
-            <Text style={styles.description}>{this.props.description}</Text>
+      <>
+        {this.props.episodes.length > 0 ? (
+          <View style={{ backgroundColor: "#1a1a1a" }}>
+            <ScrollView>
+              <View style={styles.descriptionContainer}>
+                <Image
+                  source={{ uri: this.props.image }}
+                  style={styles.image}
+                />
+                <Text style={styles.description}>{this.props.description}</Text>
+              </View>
+              <View>{episodes}</View>
+            </ScrollView>
           </View>
-          <View>
-            {episodes}
+        ) : (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="#36aee3" />
           </View>
-        </ScrollView>
-      </View>
+        )}
+      </>
     );
   }
 }
@@ -75,7 +122,7 @@ class Episodes extends Component {
 const styles = StyleSheet.create({
   descriptionContainer: {
     marginBottom: 20,
-    alignItems: "stretch",
+    alignItems: "stretch"
   },
   image: {
     flexDirection: "row",
@@ -91,8 +138,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     flex: 1,
-    borderBottomColor: '#404040',
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "#404040",
+    borderBottomWidth: StyleSheet.hairlineWidth
   },
   episode: {
     paddingTop: 20,
@@ -107,6 +154,14 @@ const styles = StyleSheet.create({
   },
   playBtn: {
     flex: 1
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10,
+    backgroundColor: "#1a1a1a"
   }
 });
 
@@ -135,8 +190,8 @@ const mapDispatchToProps = dispatch => {
     playPause: () => {
       dispatch({
         type: "PLAY_PAUSE"
-      })
-    },
+      });
+    }
   };
 };
 export default connect(
