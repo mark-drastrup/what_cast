@@ -1,16 +1,22 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
-import Constants from 'expo-constants';
+import Constants from "expo-constants";
 import PodcastList from "./PodcastList";
 import Featured from "./Featured";
-import { StyleSheet, View, TextInput, ScrollView, ActivityIndicator } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  ScrollView,
+  ActivityIndicator
+} from "react-native";
 
 class HomeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: "Discover",
-      headerTintColor: '#fff',
+      headerTintColor: "#fff",
       headerStyle: {
         backgroundColor: "black"
       },
@@ -19,32 +25,34 @@ class HomeScreen extends Component {
         textAlign: "center",
         flex: 1
       },
-      headerRight: (<View />)
+      headerRight: <View />
     };
   };
 
   componentDidMount() {
+    //This is a list of ids for featured podcast genres on the discover page
+    //This should be randomized to use 4 random ids from this array
     const featuredID = [140, 143, 138, 104, 77, 99, 133, 127];
     const first = featuredID[3];
     const second = featuredID[6];
     const third = featuredID[2];
     const fourth = featuredID[1];
-    this.props.fetchFeatured(first, second, third, fourth)
+    this.props.fetchFeatured(first, second, third, fourth);
   }
 
-  retrievePodcastEpisodes = async (id) => {
+  retrievePodcastEpisodes = async id => {
     try {
       this.props.fetchEpisodes(id);
-      this.props.navigation.navigate('Episodes')
+      this.props.navigation.navigate("Episodes");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
-  handleOnchange = (text) => {
+  handleOnchange = text => {
     this.props.onChange(text);
     this.props.fetchPodcastData(text);
-  }
+  };
 
   render() {
     if (this.props.hasFeatured) {
@@ -60,11 +68,13 @@ class HomeScreen extends Component {
             />
           </View>
           <ScrollView>
-            {this.props.podcastData.length !== 0 &&
+            {this.props.podcastData.length !== 0 && (
               <View>
-                <PodcastList fetchEpisodes={this.retrievePodcastEpisodes}></PodcastList>
+                <PodcastList
+                  fetchEpisodes={this.retrievePodcastEpisodes}
+                ></PodcastList>
               </View>
-            }
+            )}
             <Featured fetchEpisodes={this.retrievePodcastEpisodes}></Featured>
           </ScrollView>
         </View>
@@ -74,41 +84,39 @@ class HomeScreen extends Component {
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#36aee3" />
         </View>
-      )
+      );
     }
   }
-
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: '#1a1a1a',
+    justifyContent: "flex-start",
+    alignItems: "center",
+    backgroundColor: "#1a1a1a"
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: "center",
+    flexDirection: "row",
+    justifyContent: "space-around",
     padding: 10,
     backgroundColor: "#1a1a1a"
   },
   searchBar: {
-    width: "95%",
+    width: "95%"
   },
   searchInput: {
     height: 50,
-    borderColor: 'gray',
+    borderColor: "gray",
     color: "white",
     backgroundColor: "black",
     borderRadius: 6,
     marginTop: 10,
-    textAlign: "center",
+    textAlign: "center"
   }
 });
-
 
 const mapStateToProps = state => {
   return {
@@ -119,35 +127,53 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    fetchPodcastData: async (query) => {
-      const podcasts = await axios(`https://listen-api.listennotes.com/api/v2/search?q=${query}&type=podcast`, { headers: { 'X-ListenAPI-Key': Constants.manifest.extra.apiKey } })
+    fetchPodcastData: async query => {
+      const podcasts = await axios(
+        `https://listen-api.listennotes.com/api/v2/search?q=${query}&type=podcast`,
+        { headers: { "X-ListenAPI-Key": Constants.manifest.extra.apiKey } }
+      );
       dispatch({
         type: "FETCH_PODCASTDATA",
         data: podcasts.data
       });
     },
-    fetchEpisodes: async (id) => {
-      const episodes = await axios(`https://listen-api.listennotes.com/api/v2/podcasts/${id}?sort=recent_first`, { headers: { 'X-ListenAPI-Key': Constants.manifest.extra.apiKey } });
+    fetchEpisodes: async id => {
+      const episodes = await axios(
+        `https://listen-api.listennotes.com/api/v2/podcasts/${id}?sort=recent_first`,
+        { headers: { "X-ListenAPI-Key": Constants.manifest.extra.apiKey } }
+      );
       dispatch({
         type: "FETCH_EPISODES",
         data: episodes.data
       });
     },
     fetchFeatured: async (first, second, third, fourth) => {
-      const firstFeature = await axios(`https://listen-api.listennotes.com/api/v2/best_podcasts?genre_id=${first}&page=2`, { headers: { 'X-ListenAPI-Key': Constants.manifest.extra.apiKey } })
-      const secondFeature = await axios(`https://listen-api.listennotes.com/api/v2/best_podcasts?genre_id=${second}&page=2`, { headers: { 'X-ListenAPI-Key': Constants.manifest.extra.apiKey } })
-      const thirdFeature = await axios(`https://listen-api.listennotes.com/api/v2/best_podcasts?genre_id=${third}&page=2`, { headers: { 'X-ListenAPI-Key': Constants.manifest.extra.apiKey } })
-      const fourthFeature = await axios(`https://listen-api.listennotes.com/api/v2/best_podcasts?genre_id=${fourth}&page=2`, { headers: { 'X-ListenAPI-Key': Constants.manifest.extra.apiKey } })
+      const firstFeature = await axios(
+        `https://listen-api.listennotes.com/api/v2/best_podcasts?genre_id=${first}&page=2`,
+        { headers: { "X-ListenAPI-Key": Constants.manifest.extra.apiKey } }
+      );
+      const secondFeature = await axios(
+        `https://listen-api.listennotes.com/api/v2/best_podcasts?genre_id=${second}&page=2`,
+        { headers: { "X-ListenAPI-Key": Constants.manifest.extra.apiKey } }
+      );
+      const thirdFeature = await axios(
+        `https://listen-api.listennotes.com/api/v2/best_podcasts?genre_id=${third}&page=2`,
+        { headers: { "X-ListenAPI-Key": Constants.manifest.extra.apiKey } }
+      );
+      const fourthFeature = await axios(
+        `https://listen-api.listennotes.com/api/v2/best_podcasts?genre_id=${fourth}&page=2`,
+        { headers: { "X-ListenAPI-Key": Constants.manifest.extra.apiKey } }
+      );
       dispatch({
         type: "FETCH_FEATURED",
         data: { firstFeature, secondFeature, thirdFeature, fourthFeature }
-      })
+      });
     },
-    onChange: (text) => {
+    onChange: text => {
       dispatch({
         type: "UPDATE_QUERY",
         data: text
-      })
+      });
     }
   };
 };

@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { StyleSheet, Text, View, Image, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  ScrollView
+} from "react-native";
 
 class Featured extends Component {
   render() {
@@ -8,62 +15,129 @@ class Featured extends Component {
     let second;
     let third;
     let fourth;
-    if (this.props.firstFeature.length !== 0 && this.props.secondFeature.length !== 0) {
+    if (
+      this.props.firstFeature.length !== 0 &&
+      this.props.secondFeature.length !== 0
+    ) {
       first = this.props.firstFeature.map(podcast => {
         return (
-          <TouchableOpacity key={podcast.itunes_id} onPress={() => this.props.fetchEpisodes(podcast.id)} style={styles.podcast}>
+          <TouchableOpacity
+            key={podcast.itunes_id}
+            onPress={() => this.props.fetchEpisodes(podcast.id)}
+            style={styles.podcast}
+          >
             <Image source={{ uri: podcast.image }} style={styles.image}></Image>
             <View style={{ width: 150, flexDirection: "row" }}>
-              <Text style={[styles.description, styles.descriptionTitle]} numberOfLines={1} ellipsizeMode="clip">{podcast.title}</Text>
+              <Text
+                style={[styles.description, styles.descriptionTitle]}
+                numberOfLines={1}
+                ellipsizeMode="clip"
+              >
+                {podcast.title}
+              </Text>
             </View>
             <View style={{ width: 150, flexDirection: "row" }}>
-              <Text style={[styles.description, styles.descriptionPublisher]} numberOfLines={1} ellipsizeMode="clip">{podcast.publisher}</Text>
+              <Text
+                style={[styles.description, styles.descriptionPublisher]}
+                numberOfLines={1}
+                ellipsizeMode="clip"
+              >
+                {podcast.publisher}
+              </Text>
             </View>
           </TouchableOpacity>
-        )
-      })
+        );
+      });
 
       second = this.props.secondFeature.map(podcast => {
         return (
-          <TouchableOpacity key={podcast.itunes_id} onPress={() => this.props.fetchEpisodes(podcast.id)} style={styles.podcast}>
+          <TouchableOpacity
+            key={podcast.itunes_id}
+            onPress={() => this.props.fetchEpisodes(podcast.id)}
+            style={styles.podcast}
+          >
             <Image source={{ uri: podcast.image }} style={styles.image}></Image>
             <View style={{ width: 150, flexDirection: "row" }}>
-              <Text style={[styles.description, styles.descriptionTitle]} numberOfLines={1} ellipsizeMode="clip">{podcast.title}</Text>
+              <Text
+                style={[styles.description, styles.descriptionTitle]}
+                numberOfLines={1}
+                ellipsizeMode="clip"
+              >
+                {podcast.title}
+              </Text>
             </View>
             <View style={{ width: 150, flexDirection: "row" }}>
-              <Text style={[styles.description, styles.descriptionPublisher]} numberOfLines={1} ellipsizeMode="clip">{podcast.publisher}</Text>
+              <Text
+                style={[styles.description, styles.descriptionPublisher]}
+                numberOfLines={1}
+                ellipsizeMode="clip"
+              >
+                {podcast.publisher}
+              </Text>
             </View>
           </TouchableOpacity>
-        )
-      })
+        );
+      });
 
       third = this.props.thirdFeature.map(podcast => {
         return (
-          <TouchableOpacity key={podcast.itunes_id} onPress={() => this.props.fetchEpisodes(podcast.id)} style={styles.podcast}>
+          <TouchableOpacity
+            key={podcast.itunes_id}
+            onPress={() => this.props.fetchEpisodes(podcast.id)}
+            style={styles.podcast}
+          >
             <Image source={{ uri: podcast.image }} style={styles.image}></Image>
             <View style={{ width: 150, flexDirection: "row" }}>
-              <Text style={[styles.description, styles.descriptionTitle]} numberOfLines={1} ellipsizeMode="clip">{podcast.title}</Text>
+              <Text
+                style={[styles.description, styles.descriptionTitle]}
+                numberOfLines={1}
+                ellipsizeMode="clip"
+              >
+                {podcast.title}
+              </Text>
             </View>
             <View style={{ width: 150, flexDirection: "row" }}>
-              <Text style={[styles.description, styles.descriptionPublisher]} numberOfLines={1} ellipsizeMode="clip">{podcast.publisher}</Text>
+              <Text
+                style={[styles.description, styles.descriptionPublisher]}
+                numberOfLines={1}
+                ellipsizeMode="clip"
+              >
+                {podcast.publisher}
+              </Text>
             </View>
           </TouchableOpacity>
-        )
-      })
+        );
+      });
 
       fourth = this.props.fourthFeature.map(podcast => {
         return (
-          <TouchableOpacity key={podcast.itunes_id} onPress={() => this.props.fetchEpisodes(podcast.id)} style={styles.podcast}>
+          <TouchableOpacity
+            key={podcast.itunes_id}
+            onPress={() => this.props.fetchEpisodes(podcast.id)}
+            style={styles.podcast}
+          >
             <Image source={{ uri: podcast.image }} style={styles.image}></Image>
             <View style={{ width: 150, flexDirection: "row" }}>
-              <Text style={[styles.description, styles.descriptionTitle]} numberOfLines={1} ellipsizeMode="clip">{podcast.title}</Text>
+              <Text
+                style={[styles.description, styles.descriptionTitle]}
+                numberOfLines={1}
+                ellipsizeMode="clip"
+              >
+                {podcast.title}
+              </Text>
             </View>
             <View style={{ width: 150, flexDirection: "row" }}>
-              <Text style={[styles.description, styles.descriptionPublisher]} numberOfLines={1} ellipsizeMode="clip">{podcast.publisher}</Text>
+              <Text
+                style={[styles.description, styles.descriptionPublisher]}
+                numberOfLines={1}
+                ellipsizeMode="clip"
+              >
+                {podcast.publisher}
+              </Text>
             </View>
           </TouchableOpacity>
-        )
-      })
+        );
+      });
     }
     return (
       <>
@@ -75,7 +149,7 @@ class Featured extends Component {
         </View>
         <View
           style={{
-            borderBottomColor: '#404040',
+            borderBottomColor: "#404040",
             borderBottomWidth: 1,
             width: "95%",
             alignSelf: "center",
@@ -90,7 +164,7 @@ class Featured extends Component {
         </View>
         <View
           style={{
-            borderBottomColor: '#404040',
+            borderBottomColor: "#404040",
             borderBottomWidth: 1,
             width: "95%",
             alignSelf: "center",
@@ -105,7 +179,7 @@ class Featured extends Component {
         </View>
         <View
           style={{
-            borderBottomColor: '#404040',
+            borderBottomColor: "#404040",
             borderBottomWidth: 1,
             width: "95%",
             alignSelf: "center",
@@ -119,7 +193,7 @@ class Featured extends Component {
           </ScrollView>
         </View>
       </>
-    )
+    );
   }
 }
 
@@ -130,7 +204,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   podcast: {
-    marginRight: 15,
+    marginRight: 15
   },
   image: {
     width: 160,
@@ -141,7 +215,7 @@ const styles = StyleSheet.create({
     color: "white"
   },
   descriptionTitle: {
-    fontSize: 16,
+    fontSize: 16
   },
   descriptionPublisher: {
     fontSize: 14,
@@ -161,7 +235,6 @@ const styles = StyleSheet.create({
   }
 });
 
-
 const mapStateToProps = state => {
   return {
     firstFeature: state.firstFeatured.podcasts,
@@ -176,12 +249,12 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    playEpisode: async (uri) => {
+    playEpisode: async uri => {
       dispatch({
         type: "PLAY_EPISODE",
         data: uri
       });
-    },
+    }
   };
 };
 export default connect(
