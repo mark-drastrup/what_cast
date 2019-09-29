@@ -1,97 +1,4 @@
-import { createStore } from 'redux';
-
-const fetchPodcastData = data => {
-  const newAction = {
-    type: "FETCH_PODCASTDATA",
-    data: data
-  }
-  return newAction;
-}
-
-const fetchFeatured = data => {
-  const newAction = {
-    type: "FETCH_FEATURED",
-    data: data
-  }
-  return newAction;
-}
-
-const updateQuery = data => {
-  const newAction = {
-    type: "UPDATE_QUERY",
-    data: data
-  }
-  return newAction
-}
-
-const fetchEpisodes = data => {
-  const newAction = {
-    type: "FETCH_EPISODES",
-    data: data
-  }
-  return newAction
-}
-
-const playEpisode = data => {
-  const newAction = {
-    type: "PLAY_EPISODE",
-    data: data
-  }
-  return newAction;
-}
-
-const setEpisode = data => {
-  const newAction = {
-    type: "SET_EPISODE",
-    data: data
-  }
-  return newAction;
-}
-
-const updateEpisodeData = data => {
-  const newAction = {
-    type: "UPDATE_EPISODE_DATA",
-    data: data
-  }
-  return newAction;
-}
-
-const playPause = () => {
-  const newAction = {
-    type: "PLAY_PAUSE"
-  }
-  return newAction;
-}
-
-const sliderValueChange = () => {
-  const newAction = {
-    type: "SLIDER_VALUE_CHANGE"
-  }
-  return newAction;
-}
-
-const sliderSlidingComplete = () => {
-  const newAction = {
-    type: "SLIDER_VALUE_COMPLETE"
-  }
-  return newAction;
-}
-
-const fetchRandomEpisode = data => {
-  const newAction = {
-    type: "FETCH_RANDOM_EPISODE",
-    data: data
-  }
-  return newAction;
-}
-
-const changeActiveView = data => {
-  const newAction = {
-    type: "CHANGE_ACTIVE_VIEW",
-    data: data
-  }
-  return newAction;
-}
+import { createStore } from "redux";
 
 const initialState = {
   podcastData: [],
@@ -133,7 +40,7 @@ const initialState = {
   shouldPlayAtEndOfSeek: false,
   showPlayMenu: false,
   hasRandomEpisode: false,
-  hasFeatured: false,
+  hasFeatured: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -153,7 +60,7 @@ const reducer = (state = initialState, action) => {
       copiedState.episodes = [...action.data.episodes];
       copiedState.selectedPodcastImage = action.data.image;
       copiedState.selectedPodcastDescription = action.data.description;
-      copiedState.podcastName = action.data.title
+      copiedState.podcastName = action.data.title;
       return copiedState;
     }
     case "FETCH_RANDOM_EPISODE": {
@@ -165,13 +72,21 @@ const reducer = (state = initialState, action) => {
     case "FETCH_FEATURED": {
       const copiedState = Object.assign({}, state);
       copiedState.firstFeatured.name = action.data.firstFeature.data.name;
-      copiedState.firstFeatured.podcasts = [...action.data.firstFeature.data.podcasts];
+      copiedState.firstFeatured.podcasts = [
+        ...action.data.firstFeature.data.podcasts
+      ];
       copiedState.secondFeatured.name = action.data.secondFeature.data.name;
-      copiedState.secondFeatured.podcasts = [...action.data.secondFeature.data.podcasts];
+      copiedState.secondFeatured.podcasts = [
+        ...action.data.secondFeature.data.podcasts
+      ];
       copiedState.thirdFeatured.name = action.data.thirdFeature.data.name;
-      copiedState.thirdFeatured.podcasts = [...action.data.thirdFeature.data.podcasts];
+      copiedState.thirdFeatured.podcasts = [
+        ...action.data.thirdFeature.data.podcasts
+      ];
       copiedState.fourthFeatured.name = action.data.fourthFeature.data.name;
-      copiedState.fourthFeatured.podcasts = [...action.data.fourthFeature.data.podcasts];
+      copiedState.fourthFeatured.podcasts = [
+        ...action.data.fourthFeature.data.podcasts
+      ];
       copiedState.hasFeatured = true;
       return copiedState;
     }
@@ -179,7 +94,7 @@ const reducer = (state = initialState, action) => {
       const copiedState = Object.assign({}, state);
       copiedState.showPlayMenu = true;
       copiedState.episodeURI = action.data.uri;
-      copiedState.currentlyPlaying = action.data.id
+      copiedState.currentlyPlaying = action.data.id;
       return copiedState;
     }
     case "SET_EPISODE": {
