@@ -31,14 +31,20 @@ class HomeScreen extends Component {
 
   componentDidMount() {
     //This is a list of ids for featured podcast genres on the discover page
-    //This should be randomized to use 4 random ids from this array
     const featuredID = [140, 143, 138, 104, 77, 99, 133, 127];
-    const first = featuredID[3];
-    const second = featuredID[6];
-    const third = featuredID[2];
-    const fourth = featuredID[1];
+    const first = this.getRandomFeaturedCategory(featuredID);
+    const second = this.getRandomFeaturedCategory(featuredID);
+    const third = this.getRandomFeaturedCategory(featuredID);
+    const fourth = this.getRandomFeaturedCategory(featuredID);
     this.props.fetchFeatured(first, second, third, fourth);
   }
+
+  getRandomFeaturedCategory = featuredIdArray => {
+    return featuredIdArray.splice(
+      Math.floor(Math.random() * featuredIdArray.length),
+      1
+    );
+  };
 
   retrievePodcastEpisodes = async id => {
     try {
