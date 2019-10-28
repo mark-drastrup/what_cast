@@ -97,7 +97,7 @@ class Episodes extends Component {
     return (
       <>
         {this.props.episodes.length > 0 ? (
-          <View style={{ backgroundColor: "#1a1a1a" }}>
+          <View style={styles.episodes}>
             <ScrollView>
               <View style={styles.descriptionContainer}>
                 <Image
@@ -120,6 +120,9 @@ class Episodes extends Component {
 }
 
 const styles = StyleSheet.create({
+  episodes: {
+    backgroundColor: "#1a1a1a"
+  },
   descriptionContainer: {
     marginBottom: 20,
     alignItems: "stretch"

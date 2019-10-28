@@ -30,13 +30,13 @@ class Random extends Component {
   render() {
     if (this.props.hasRandomEpisode) {
       return (
-        <View style={{ flex: 1 }}>
+        <View style={styles.randomEpisodeContainer}>
           <RandomEpisode></RandomEpisode>
         </View>
       );
     } else {
       return (
-        <View style={styles.container}>
+        <View style={styles.loaderContainer}>
           <ActivityIndicator size="large" color="#36aee3" />
         </View>
       );
@@ -45,7 +45,10 @@ class Random extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  randomEpisodeContainer: {
+    flex: 1
+  },
+  loaderContainer: {
     flex: 1,
     justifyContent: "center",
     flexDirection: "row",
