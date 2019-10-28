@@ -1,13 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import HomeScreen from "./HomeScreen"
+import HomeScreen from "./HomeScreen";
 import Episodes from "./Episodes";
 import PlayMenu from "./PlayMenu";
 import PodcastList from "./PodcastList";
 import Random from "./Random";
 import Menu from "./Menu";
-import { View } from 'react-native';
-import { createStackNavigator, createAppContainer, NavigationActions } from "react-navigation";
+import { View, StyleSheet } from "react-native";
+import {
+  createStackNavigator,
+  createAppContainer,
+  NavigationActions
+} from "react-navigation";
 
 const RootStack = createStackNavigator(
   {
@@ -17,29 +21,39 @@ const RootStack = createStackNavigator(
     Random: Random
   },
   {
-    initialRouteName: 'Random',
+    initialRouteName: "Random"
   }
 );
 
 const AppContainer = createAppContainer(RootStack);
 
 class Wrapper extends Component {
-  dispatchRoute = (route) => {
-    this._navigator.dispatch({ type: NavigationActions.NAVIGATE, routeName: route })
-  }
+  dispatchRoute = route => {
+    this._navigator.dispatch({
+      type: NavigationActions.NAVIGATE,
+      routeName: route
+    });
+  };
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <AppContainer style={{ flex: 1 }} ref={nav => this._navigator = nav} />
-        {this.props.showPlayMenu === true &&
-          <PlayMenu></PlayMenu>
-        }
+      <View style={styles.container}>
+        <AppContainer
+          style={styles.container}
+          ref={nav => (this._navigator = nav)}
+        />
+        {this.props.showPlayMenu === true && <PlayMenu></PlayMenu>}
         <Menu dispatchRoute={this.dispatchRoute}></Menu>
       </View>
-    )
+    );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  }
+});
 
 const mapStateToProps = state => {
   return {
@@ -48,12 +62,12 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    playEpisode: async (uri) => {
+    playEpisode: async uri => {
       dispatch({
         type: "PLAY_EPISODES",
         data: uri
       });
-    },
+    }
   };
 };
 export default connect(

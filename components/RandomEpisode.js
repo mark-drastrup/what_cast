@@ -1,10 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import Constants from 'expo-constants';
-import { StyleSheet, Text, View, Image, Button, TouchableOpacity, ScrollView } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Constants from "expo-constants";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Button,
+  TouchableOpacity,
+  ScrollView
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
-import { convertToPlaytime } from "../helpers"
+import { convertToPlaytime } from "../helpers";
 
 class RandomEpisode extends Component {
   onPlayPause = () => {
@@ -14,47 +22,87 @@ class RandomEpisode extends Component {
       this.props.playbackInstance.playAsync();
     }
     this.props.playPause();
-  }
+  };
 
   render() {
     let episodes;
     if (this.props.episodes.length !== 0) {
-      episodes = this.props.episodes.map((episode) => {
+      episodes = this.props.episodes.map(episode => {
         const date = new Date(episode.pub_date_ms);
         const day = date.getDate();
-        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Oktober", "November", "December"]
+        const months = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "Oktober",
+          "November",
+          "December"
+        ];
         const month = date.getMonth();
         const playTime = convertToPlaytime(episode.audio_length_sec);
         return (
           <TouchableOpacity style={styles.episodesContainer} key={episode.id}>
             <View style={styles.episode}>
-              <Text style={styles.episodeInfo}>{`${day} ${months[month]}`}</Text>
+              <Text
+                style={styles.episodeInfo}
+              >{`${day} ${months[month]}`}</Text>
               <Text style={styles.episodeInfo}>{episode.title}</Text>
               <Text style={styles.episodeInfo}>{playTime}</Text>
             </View>
-            {this.props.currentlyPlaying === episode.id && this.props.isPlaying ?
-              <Ionicons name="md-pause" size={32} color="white" style={styles.playBtn} onPress={this.onPlayPause}></Ionicons>
-              :
-              <Ionicons name="md-play" size={32} color="white" style={styles.playBtn} onPress={() => this.props.playEpisode(episode.audio, episode.id)}></Ionicons>
-            }
+            {this.props.currentlyPlaying === episode.id &&
+            this.props.isPlaying ? (
+              <Ionicons
+                name="md-pause"
+                size={32}
+                color="white"
+                style={styles.playBtn}
+                onPress={this.onPlayPause}
+              ></Ionicons>
+            ) : (
+              <Ionicons
+                name="md-play"
+                size={32}
+                color="white"
+                style={styles.playBtn}
+                onPress={() =>
+                  this.props.playEpisode(episode.audio, episode.id)
+                }
+              ></Ionicons>
+            )}
           </TouchableOpacity>
-        )
-      })
+        );
+      });
     }
 
     return (
-      <View style={{ backgroundColor: "#1a1a1a", flex: 1 }}>
-        <ScrollView contentContainerStyle={{ flexGrow: 1, flexDirection: 'column', justifyContent: 'space-between' }}>
+      <View style={styles.mainContainer}>
+        <ScrollView contentContainerStyle={styles.randomEpisode}>
           <View style={styles.descriptionContainer}>
-            <Image source={{ uri: this.props.episodes[0].image }} style={styles.image} />
-            <Text style={styles.description}>{this.props.episodes[0].description.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
+            <Image
+              source={{ uri: this.props.episodes[0].image }}
+              style={styles.image}
+            />
+            <Text style={styles.description}>
+              {this.props.episodes[0].description.replace(
+                /<\/?[^>]+(>|$)/g,
+                ""
+              )}
+            </Text>
           </View>
           <View>
+            <View>{episodes}</View>
             <View>
-              {episodes}
-            </View>
-            <View>
-              <Button title="Randomize" onPress={this.props.fetchEpisode} style={{ alignSelf: "flex-end" }}></Button>
+              <Button
+                title="Randomize"
+                onPress={this.props.fetchEpisode}
+                style={styles.randomBtn}
+              ></Button>
             </View>
           </View>
         </ScrollView>
@@ -64,9 +112,18 @@ class RandomEpisode extends Component {
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    backgroundColor: "#1a1a1a",
+    flex: 1
+  },
+  randomEpisode: {
+    flexGrow: 1,
+    flexDirection: "column",
+    justifyContent: "space-between"
+  },
   descriptionContainer: {
     marginBottom: 20,
-    alignItems: "stretch",
+    alignItems: "stretch"
   },
   image: {
     flexDirection: "row",
@@ -82,21 +139,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     flex: 1,
-    borderBottomColor: '#404040',
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "#404040",
+    borderBottomWidth: StyleSheet.hairlineWidth
   },
   episode: {
     paddingTop: 20,
     paddingBottom: 20,
     paddingRight: 15,
     paddingLeft: 5,
-    flex: 10,
+    flex: 10
   },
   episodeInfo: {
     color: "white"
   },
   playBtn: {
     flex: 1
+  },
+  randomBtn: {
+    alignSelf: "flex-end"
   }
 });
 
@@ -122,15 +182,18 @@ const mapDispatchToProps = dispatch => {
     playPause: () => {
       dispatch({
         type: "PLAY_PAUSE"
-      })
+      });
     },
     fetchEpisode: async () => {
-      const episodes = await axios(`https://listen-api.listennotes.com/api/v2/just_listen`, { headers: { 'X-ListenAPI-Key': Constants.manifest.extra.apiKey } });
+      const episodes = await axios(
+        `https://listen-api.listennotes.com/api/v2/just_listen`,
+        { headers: { "X-ListenAPI-Key": Constants.manifest.extra.apiKey } }
+      );
       dispatch({
         type: "FETCH_RANDOM_EPISODE",
         data: episodes.data
       });
-    },
+    }
   };
 };
 export default connect(
