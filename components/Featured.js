@@ -27,7 +27,7 @@ class Featured extends Component {
             style={styles.podcast}
           >
             <Image source={{ uri: podcast.image }} style={styles.image}></Image>
-            <View style={{ width: 150, flexDirection: "row" }}>
+            <View style={styles.textContainer}>
               <Text
                 style={[styles.description, styles.descriptionTitle]}
                 numberOfLines={1}
@@ -36,7 +36,7 @@ class Featured extends Component {
                 {podcast.title}
               </Text>
             </View>
-            <View style={{ width: 150, flexDirection: "row" }}>
+            <View style={styles.textContainer}>
               <Text
                 style={[styles.description, styles.descriptionPublisher]}
                 numberOfLines={1}
@@ -57,7 +57,7 @@ class Featured extends Component {
             style={styles.podcast}
           >
             <Image source={{ uri: podcast.image }} style={styles.image}></Image>
-            <View style={{ width: 150, flexDirection: "row" }}>
+            <View style={styles.textContainer}>
               <Text
                 style={[styles.description, styles.descriptionTitle]}
                 numberOfLines={1}
@@ -66,7 +66,7 @@ class Featured extends Component {
                 {podcast.title}
               </Text>
             </View>
-            <View style={{ width: 150, flexDirection: "row" }}>
+            <View style={styles.textContainer}>
               <Text
                 style={[styles.description, styles.descriptionPublisher]}
                 numberOfLines={1}
@@ -87,7 +87,7 @@ class Featured extends Component {
             style={styles.podcast}
           >
             <Image source={{ uri: podcast.image }} style={styles.image}></Image>
-            <View style={{ width: 150, flexDirection: "row" }}>
+            <View style={styles.textContainer}>
               <Text
                 style={[styles.description, styles.descriptionTitle]}
                 numberOfLines={1}
@@ -96,7 +96,7 @@ class Featured extends Component {
                 {podcast.title}
               </Text>
             </View>
-            <View style={{ width: 150, flexDirection: "row" }}>
+            <View style={styles.textContainer}>
               <Text
                 style={[styles.description, styles.descriptionPublisher]}
                 numberOfLines={1}
@@ -117,7 +117,7 @@ class Featured extends Component {
             style={styles.podcast}
           >
             <Image source={{ uri: podcast.image }} style={styles.image}></Image>
-            <View style={{ width: 150, flexDirection: "row" }}>
+            <View style={styles.textContainer}>
               <Text
                 style={[styles.description, styles.descriptionTitle]}
                 numberOfLines={1}
@@ -126,7 +126,7 @@ class Featured extends Component {
                 {podcast.title}
               </Text>
             </View>
-            <View style={{ width: 150, flexDirection: "row" }}>
+            <View style={styles.textContainer}>
               <Text
                 style={[styles.description, styles.descriptionPublisher]}
                 numberOfLines={1}
@@ -147,45 +147,21 @@ class Featured extends Component {
             {first}
           </ScrollView>
         </View>
-        <View
-          style={{
-            borderBottomColor: "#404040",
-            borderBottomWidth: 1,
-            width: "95%",
-            alignSelf: "center",
-            marginTop: 20
-          }}
-        />
+        <View style={styles.horizontalRule} />
         <View style={styles.podcastList}>
           <Text style={styles.resultText}>{this.props.secondFeatureTitle}</Text>
           <ScrollView style={styles.podcastImageContainer} horizontal="true">
             {second}
           </ScrollView>
         </View>
-        <View
-          style={{
-            borderBottomColor: "#404040",
-            borderBottomWidth: 1,
-            width: "95%",
-            alignSelf: "center",
-            marginTop: 20
-          }}
-        />
+        <View style={styles.horizontalRule} />
         <View style={styles.podcastList}>
           <Text style={styles.resultText}>{this.props.thirdFeatureTitle}</Text>
           <ScrollView style={styles.podcastImageContainer} horizontal="true">
             {third}
           </ScrollView>
         </View>
-        <View
-          style={{
-            borderBottomColor: "#404040",
-            borderBottomWidth: 1,
-            width: "95%",
-            alignSelf: "center",
-            marginTop: 20
-          }}
-        />
+        <View style={styles.horizontalRule} />
         <View style={styles.podcastList}>
           <Text style={styles.resultText}>{this.props.fourthFeatureTitle}</Text>
           <ScrollView style={styles.podcastImageContainer} horizontal="true">
@@ -211,6 +187,10 @@ const styles = StyleSheet.create({
     height: 160,
     borderRadius: 6
   },
+  textContainer: {
+    width: 150,
+    flexDirection: "row"
+  },
   description: {
     color: "white"
   },
@@ -232,6 +212,13 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     width: 150,
     marginBottom: 10
+  },
+  horizontalRule: {
+    borderBottomColor: "#404040",
+    borderBottomWidth: 1,
+    width: "95%",
+    alignSelf: "center",
+    marginTop: 20
   }
 });
 
