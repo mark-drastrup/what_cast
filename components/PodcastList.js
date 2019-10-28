@@ -48,7 +48,7 @@ class Podcastlist extends Component {
             style={styles.podcast}
           >
             <Image source={{ uri: podcast.image }} style={styles.image}></Image>
-            <View style={{ width: 150, flexDirection: "row" }}>
+            <View style={styles.textContainer}>
               <Text
                 style={[styles.description, styles.descriptionTitle]}
                 numberOfLines={1}
@@ -57,7 +57,7 @@ class Podcastlist extends Component {
                 {podcast.title_original}
               </Text>
             </View>
-            <View style={{ width: 150, flexDirection: "row" }}>
+            <View style={styles.textContainer}>
               <Text
                 style={[styles.description, styles.descriptionPublisher]}
                 numberOfLines={1}
@@ -79,15 +79,7 @@ class Podcastlist extends Component {
             {results}
           </ScrollView>
         </View>
-        <View
-          style={{
-            borderBottomColor: "#404040",
-            borderBottomWidth: 1,
-            width: "95%",
-            alignSelf: "center",
-            marginTop: 20
-          }}
-        />
+        <View style={styles.horizontalRule} />
       </>
     );
   }
@@ -106,6 +98,10 @@ const styles = StyleSheet.create({
     width: 160,
     height: 160,
     borderRadius: 6
+  },
+  textContainer: {
+    width: 150,
+    flexDirection: "row"
   },
   description: {
     color: "white"
@@ -128,6 +124,13 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     width: "50%",
     marginBottom: 10
+  },
+  horizontalRule: {
+    borderBottomColor: "#404040",
+    borderBottomWidth: 1,
+    width: "95%",
+    alignSelf: "center",
+    marginTop: 20
   }
 });
 
